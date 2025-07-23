@@ -75,7 +75,7 @@ Use the `test_inference.py` script for model inference.
 
 ---
 
-## 🗂️ Project Structure
+## Project Structure
 
 ```
 homeformer/
@@ -91,7 +91,7 @@ homeformer/
 
 ---
 
-## 🚀 Quick Start
+## Quick Start
 
 1. **Install dependencies:**
    ```bash
