@@ -1,101 +1,83 @@
-🏠 Homeformer – Smart Home Action Modeling with TinyLlama
+# Homeformer – Smart Home Action Modeling with TinyLlama
 
-Fine-tuned TinyLlama-1.1B-Chat on a large, realistic synthetic dataset of smart home routines.
+**Fine-tuned TinyLlama-1.1B-Chat on a large, realistic synthetic dataset of smart home routines.**
 
-Hugging Face model:🔗 https://huggingface.co/rahulmadhugiri/homeformer
+ **Hugging Face Model:** [rahulmadhugiri/homeformer](https://huggingface.co/rahulmadhugiri/homeformer)
 
-🧠 Project Summary
+---
+
+## Project Overview
 
 The goal of this project is to train a compact language model that can predict realistic sequences of smart home actions — e.g., when to turn on lights, brew coffee, or lock doors — based on time, context, and prior events.
 
-We fine-tuned TinyLlama-1.1B to generate complete home automation routines in a causal language modeling setup.
+We fine-tuned **TinyLlama-1.1B** to generate complete home automation routines in a causal language modeling setup.
 
-📊 Dataset & Preprocessing
+---
 
-Source file: data/Global_Realistic_Synthetic_Home_Routines__50k_.csv
+##  Dataset & Preprocessing
 
-Size: ~320,000 rows across ~50k unique routines
+### Data Source
+- **File:** `data/Global_Realistic_Synthetic_Home_Routines__50k_.csv`
+- **Size:** ~320,000 rows across ~50k unique routines
 
-Splits:
+### Data Splits
+- **Train:** 40k routines
+- **Validation:** 5k routines  
+- **Test:** 5k routines
 
-40k train
+### Preprocessing Pipeline
+- Tokenized using TinyLlama tokenizer
+- Stored in `processed_data/` as JSONL format
 
-5k validation
+---
 
-5k test
+##  Training Configuration
 
-Preprocessing:
+| Parameter | Value |
+|-----------|-------|
+| **Script** | `tinyllama_training.py` |
+| **Base Model** | TinyLlama/TinyLlama-1.1B-Chat-v1.0 |
+| **Hardware** | GPU with ~24GB VRAM (e.g., RTX 4090) |
+| **Training Time** | ~2–3 hours for 3 epochs |
+| **Checkpoints** | Saved every 500 steps to `checkpoints/` |
 
-Tokenized using TinyLlama tokenizer
+###  Training Results
 
-Stored in processed_data/ as JSONL
+| Metric | Value |
+|--------|-------|
+| **Initial Train Loss** | ~1.5 |
+| **Final Train Loss** | ~0.40 |
+| **Eval Loss** | ~0.37 |
 
-🏋️ Training
+---
 
-Script: tinyllama_training.py
+##  Inference & Usage
 
-Base model: TinyLlama/TinyLlama-1.1B-Chat-v1.0
+### Getting Started
+Use the `test_inference.py` script for model inference.
 
-Hardware: GPU with ~24GB VRAM (e.g., RTX 4090)
+### Features
+-  **Iterative forecasting** - Predict next actions step by step
+-  **Multi-step output** - Generate sequences of actions
+-  **Full-day simulations** - Complete daily routine modeling
 
-Training time: ~2–3 hours for 3 epochs
+### Example Usage
 
-📉 Loss
-
-Metric
-
-Value
-
-Initial train
-
-~1.5
-
-Final train
-
-~0.40
-
-Eval loss
-
-~0.37
-
-Checkpoints: saved every 500 steps to checkpoints/
-
-🤖 Inference
-
-Script: test_inference.py
-
-Function: Given partial routine history, predicts next actions
-
-Supports:
-
-Iterative forecasting
-
-Multi-step output
-
-Full-day simulations
-
-🔢 Example Input
-
+#### Input Format
+```
 06:50 | bedroom_heater | turn_on [SEP] 06:52 | kitchen_coffee_maker | start_brew [SEP]
+```
 
-🪄 Example Output
-
+#### Output Format
+```
 07:00 | bedroom_1_mirror_light | turn_off [SEP] 07:11 | none | DONE
+```
 
-🛠️ Next Steps
+---
 
-✅ Export final model + tokenizer → Hugging Face
+## 🗂️ Project Structure
 
-🔜 Wrap inference in FastAPI or REST API
-
-🔜 Optimize for edge devices
-
-🔜 Build feedback/simulation UI
-
-🔜 Add online learning from user behavior
-
-🗂️ Folder Structure
-
+```
 homeformer/
 ├── checkpoints/          # Model checkpoints (6GB each)
 ├── data/                 # Raw dataset CSV
@@ -105,4 +87,24 @@ homeformer/
 ├── test_inference.py     # Inference script
 ├── requirements.txt      # Python dependencies
 └── README.md             # Project documentation
+```
+
+---
+
+## 🚀 Quick Start
+
+1. **Install dependencies:**
+   ```bash
+   pip install -r requirements.txt
+   ```
+
+2. **Run inference:**
+   ```bash
+   python test_inference.py
+   ```
+
+3. **Train model:**
+   ```bash
+   python tinyllama_training.py
+   ```
 
